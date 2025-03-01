@@ -152,7 +152,7 @@ function App() {
         {!isPayScreen ? (
           <div className="content">
             <header className="header">
-              <h1>{activeCategory} POS Terminal</h1>
+              <h1>{activeCategory}</h1>
             </header>
 
             <div className="item-selection">
