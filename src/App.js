@@ -176,11 +176,17 @@ function App() {
                 <p>No items in cart.</p>
               ) : (
                 <>
-                  <ul>
+                  <ul className="cart-items">
                     {cart.map((item, index) => (
-                      <li key={index}>
-                        {item.name} - {item.quantity}x ${item.price.toFixed(2)}{" "}
-                        = ${(item.price * item.quantity).toFixed(2)}
+                      <li key={index} className="cart-item">
+                        <span className="item-name">{item.name}</span>
+                        <span className="item-quantity">{item.quantity}x</span>
+                        <span className="item-price">
+                          ${item.price.toFixed(2)}
+                        </span>
+                        <span className="item-total">
+                          ${(item.price * item.quantity).toFixed(2)}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -189,10 +195,14 @@ function App() {
                       const {subtotal, tax, total} = calculateTotals();
                       return (
                         <>
-                          <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                          <p>GST (9%): ${tax.toFixed(2)}</p>
                           <p>
-                            <strong>Total: ${total.toFixed(2)}</strong>
+                            Subtotal: <span>${subtotal.toFixed(2)}</span>
+                          </p>
+                          <p>
+                            GST (9%): <span>${tax.toFixed(2)}</span>
+                          </p>
+                          <p className="total">
+                            Total: <span>${total.toFixed(2)}</span>
                           </p>
                         </>
                       );
@@ -218,36 +228,48 @@ function App() {
               <h1>Payment Confirmation</h1>
             </header>
 
-            <div className="cart">
-              <h2>Cart</h2>
-              <ul>
-                {cart.map((item, index) => (
-                  <li key={index}>
-                    {item.name} - {item.quantity}x ${item.price.toFixed(2)} = $
-                    {(item.price * item.quantity).toFixed(2)}
-                  </li>
-                ))}
-              </ul>
-              <div className="totals">
-                {(() => {
-                  const {subtotal, tax, total} = calculateTotals();
-                  return (
-                    <>
-                      <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                      <p>GST (9%): ${tax.toFixed(2)}</p>
-                      <p>
-                        <strong>Total: ${total.toFixed(2)}</strong>
-                      </p>
-                    </>
-                  );
-                })()}
+            <div className="pay-screen-container">
+              <div className="cart pay-cart">
+                <h2>Cart</h2>
+                <ul className="cart-items">
+                  {cart.map((item, index) => (
+                    <li key={index} className="cart-item">
+                      <span className="item-name">{item.name}</span>
+                      <span className="item-quantity">{item.quantity}x</span>
+                      <span className="item-price">
+                        ${item.price.toFixed(2)}
+                      </span>
+                      <span className="item-total">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="totals">
+                  {(() => {
+                    const {subtotal, tax, total} = calculateTotals();
+                    return (
+                      <>
+                        <p>
+                          Subtotal: <span>${subtotal.toFixed(2)}</span>
+                        </p>
+                        <p>
+                          GST (9%): <span>${tax.toFixed(2)}</span>
+                        </p>
+                        <p className="total">
+                          Total: <span>${total.toFixed(2)}</span>
+                        </p>
+                      </>
+                    );
+                  })()}
+                </div>
               </div>
-            </div>
 
-            <div className="qr-code">
-              <h2>Scan Receipt QR Code</h2>
-              <QRCodeCanvas value={receiptData} size={256} />
-              <p>Scan this with your mobile app to save the receipt.</p>
+              <div className="qr-code pay-qr">
+                <h2>Scan Receipt QR Code</h2>
+                <QRCodeCanvas value={receiptData} size={256} />
+                <p>Scan this with your mobile app to save the receipt.</p>
+              </div>
             </div>
 
             <div className="actions">

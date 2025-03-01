@@ -20,7 +20,7 @@
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: relative;
-  height: 70px; /* Fixed height as requested */
+  height: 70px;
 }
 
 .hamburger {
@@ -53,7 +53,7 @@
 /* Main Container */
 .main-container {
   display: flex;
-  height: calc(100vh - 70px); /* Adjusted for 70px top nav */
+  height: calc(100vh - 70px);
 }
 
 /* Sidebar */
@@ -87,7 +87,6 @@
   background-color: #2980b9;
 }
 
-
 /* Content Area */
 .content {
   flex: 1;
@@ -105,13 +104,11 @@
 
 .header h1 {
   color: #2c3e50;
+  font-size: 28px;
 }
 
 /* Item Selection */
-.item-selection,
-.cart,
-.actions,
-.qr-code {
+.item-selection {
   margin: 20px 0;
 }
 
@@ -138,34 +135,133 @@
 }
 
 /* Cart */
-.cart ul {
+.cart {
+  margin: 20px 0;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cart h2 {
+  font-size: 22px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.cart-items {
   list-style: none;
   padding: 0;
 }
 
-.cart li {
-  margin: 10px 0;
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  color: #333;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.item-name {
+  flex: 2;
+  font-weight: 500;
+}
+
+.item-quantity {
+  flex: 1;
+  text-align: center;
+  color: #666;
+}
+
+.item-price {
+  flex: 1;
+  text-align: center;
+  color: #666;
+}
+
+.item-total {
+  flex: 1;
+  text-align: right;
+  font-weight: bold;
+  color: #2c3e50;
 }
 
 .totals {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: white;
-  border-radius: 5px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
 }
 
-/* ... (Previous CSS remains unchanged until the actions section) ... */
+.totals p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #333;
+  margin: 5px 0;
+}
+
+.totals .total {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.totals span {
+  font-weight: 500;
+}
+
+/* Pay Screen */
+.pay-screen-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.pay-cart {
+  flex: 1;
+  margin: 0;
+}
+
+.pay-qr {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.pay-qr h2 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.pay-qr p {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+}
 
 /* Actions */
+.actions {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
 .pay-button,
 .reset-button,
 .back-button {
   padding: 12px 25px;
-  margin: 0 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -192,7 +288,7 @@
 }
 
 .back-button {
-  background-color: #3498db; /* Blue to distinguish from Done */
+  background-color: #3498db;
   color: white;
 }
 
@@ -200,35 +296,10 @@
   background-color: #2980b9;
 }
 
-/* ... (Rest of the CSS remains unchanged) ... */
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  /* ... (Previous media query content) ... */
-  .pay-button,
-  .reset-button,
-  .back-button {
-    padding: 10px 20px;
-    font-size: 14px;
-    width: 100%;
-    margin: 5px 0;
-  }
-}
-
-/* ... (Rest of the media queries remain unchanged) ... */
-/* QR Code */
-.qr-code {
-  text-align: center;
-  padding: 20px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .top-nav {
-    height: 70px; /* Maintain fixed height */
+    height: 70px;
     flex-wrap: wrap;
   }
 
@@ -248,7 +319,7 @@
   .sidebar {
     width: 100%;
     position: fixed;
-    top: 70px; /* Adjusted for 70px top nav */
+    top: 70px;
     left: 0;
     transform: translateX(-100%);
     z-index: 1000;
@@ -273,19 +344,38 @@
     min-width: 100px;
   }
 
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0;
+  }
+
+  .item-quantity,
+  .item-price,
+  .item-total {
+    text-align: left;
+    margin-top: 5px;
+  }
+
+  .pay-screen-container {
+    flex-direction: column;
+  }
+
+  .pay-cart,
+  .pay-qr {
+    width: 100%;
+  }
+
   .pay-button,
-  .reset-button {
+  .reset-button,
+  .back-button {
     padding: 10px 20px;
     font-size: 14px;
     width: 100%;
     margin: 5px 0;
   }
 
-  .qr-code {
-    padding: 10px;
-  }
-
-  .qr-code canvas {
+  .pay-qr canvas {
     width: 100% !important;
     height: auto !important;
     max-width: 200px;
@@ -309,5 +399,22 @@
     padding: 6px 10px;
     font-size: 10px;
     min-width: 80px;
+  }
+
+  .cart h2,
+  .pay-qr h2 {
+    font-size: 18px;
+  }
+
+  .cart-item {
+    font-size: 14px;
+  }
+
+  .totals p {
+    font-size: 14px;
+  }
+
+  .totals .total {
+    font-size: 16px;
   }
 }
