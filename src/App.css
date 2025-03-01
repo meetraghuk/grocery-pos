@@ -87,6 +87,7 @@
   background-color: #2980b9;
 }
 
+
 /* Content Area */
 .content {
   flex: 1;
@@ -157,9 +158,12 @@
   border-radius: 5px;
 }
 
+/* ... (Previous CSS remains unchanged until the actions section) ... */
+
 /* Actions */
 .pay-button,
-.reset-button {
+.reset-button,
+.back-button {
   padding: 12px 25px;
   margin: 0 10px;
   border: none;
@@ -187,6 +191,31 @@
   background-color: #c0392b;
 }
 
+.back-button {
+  background-color: #3498db; /* Blue to distinguish from Done */
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #2980b9;
+}
+
+/* ... (Rest of the CSS remains unchanged) ... */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* ... (Previous media query content) ... */
+  .pay-button,
+  .reset-button,
+  .back-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* ... (Rest of the media queries remain unchanged) ... */
 /* QR Code */
 .qr-code {
   text-align: center;

@@ -8,6 +8,7 @@ function App() {
   const [receiptData, setReceiptData] = useState(null);
   const [activeCategory, setActiveCategory] = useState("Groceries");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isPayScreen, setIsPayScreen] = useState(false);
 
   const categories = {
     Groceries: [
@@ -27,7 +28,6 @@ function App() {
       {name: "USB Cable", price: 5.0},
     ],
     "Food & Beverages": [
-      // New category
       {name: "Coffee (500g)", price: 8.99},
       {name: "Orange Juice (1L)", price: 4.25},
       {name: "Chocolate Bar", price: 1.99},
@@ -85,12 +85,18 @@ function App() {
     };
     setReceiptData(JSON.stringify(receipt));
     setShowQR(true);
+    setIsPayScreen(true);
   };
 
   const resetCart = () => {
     setCart([]);
     setShowQR(false);
     setReceiptData(null);
+    setIsPayScreen(false);
+  };
+
+  const goBack = () => {
+    setIsPayScreen(false); // Simply go back without resetting cart
   };
 
   const toggleSidebar = () => {
@@ -123,95 +129,140 @@ function App() {
 
       {/* Main Container */}
       <div className="main-container">
-        {/* Left Sidebar Navigation */}
-        <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-          <h3>Categories</h3>
-          <ul>
-            {Object.keys(categories).map((category) => (
-              <li
-                key={category}
-                className={activeCategory === category ? "active" : ""}
-                onClick={() => {
-                  setActiveCategory(category);
-                  setIsSidebarOpen(false);
-                }}
-              >
-                {category}
-              </li>
-            ))}
-          </ul>
-        </aside>
+        {!isPayScreen ? (
+          <>
+            {/* Sidebar (only shown in main view) */}
+            <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+              <h3>Categories</h3>
+              <ul>
+                {Object.keys(categories).map((category) => (
+                  <li
+                    key={category}
+                    className={activeCategory === category ? "active" : ""}
+                    onClick={() => {
+                      setActiveCategory(category);
+                      setIsSidebarOpen(false);
+                    }}
+                  >
+                    {category}
+                  </li>
+                ))}
+              </ul>
+            </aside>
 
-        {/* Content Area */}
-        <div className="content">
-          <header className="header">
-            <h1>{activeCategory}</h1>
-          </header>
+            {/* Main Content (only shown in main view) */}
+            <div className="content">
+              <header className="header">
+                <h1>{activeCategory} POS Terminal</h1>
+              </header>
 
-          <div className="item-selection">
-            <h2>Click to Select</h2>
-            <div className="item-list">
-              {categories[activeCategory].map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => addToCart(item)}
-                  className="item-button"
-                >
-                  {item.name} (${item.price.toFixed(2)})
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="cart">
-            <h2>Cart</h2>
-            {cart.length === 0 ? (
-              <p>No items in cart.</p>
-            ) : (
-              <>
-                <ul>
-                  {cart.map((item, index) => (
-                    <li key={index}>
-                      {item.name} - {item.quantity}x ${item.price.toFixed(2)} =
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </li>
+              <div className="item-selection">
+                <h2>Select Items</h2>
+                <div className="item-list">
+                  {categories[activeCategory].map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => addToCart(item)}
+                      className="item-button"
+                    >
+                      {item.name} (${item.price.toFixed(2)})
+                    </button>
                   ))}
-                </ul>
-                <div className="totals">
-                  {(() => {
-                    const {subtotal, tax, total} = calculateTotals();
-                    return (
-                      <>
-                        <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                        <p>GST (9%): ${tax.toFixed(2)}</p>
-                        <p>
-                          <strong>Total: ${total.toFixed(2)}</strong>
-                        </p>
-                      </>
-                    );
-                  })()}
                 </div>
-              </>
-            )}
-          </div>
+              </div>
 
-          <div className="actions">
-            <button onClick={handlePay} className="pay-button">
-              Pay
-            </button>
-            <button onClick={resetCart} className="reset-button">
-              Reset
-            </button>
-          </div>
+              <div className="cart">
+                <h2>Cart</h2>
+                {cart.length === 0 ? (
+                  <p>No items in cart.</p>
+                ) : (
+                  <>
+                    <ul>
+                      {cart.map((item, index) => (
+                        <li key={index}>
+                          {item.name} - {item.quantity}x $
+                          {item.price.toFixed(2)} = $
+                          {(item.price * item.quantity).toFixed(2)}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="totals">
+                      {(() => {
+                        const {subtotal, tax, total} = calculateTotals();
+                        return (
+                          <>
+                            <p>Subtotal: ${subtotal.toFixed(2)}</p>
+                            <p>GST (9%): ${tax.toFixed(2)}</p>
+                            <p>
+                              <strong>Total: ${total.toFixed(2)}</strong>
+                            </p>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  </>
+                )}
+              </div>
 
-          {showQR && receiptData && (
+              <div className="actions">
+                <button onClick={handlePay} className="pay-button">
+                  Pay
+                </button>
+                <button onClick={resetCart} className="reset-button">
+                  Reset
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          /* Pay Screen */
+          <div className="content pay-screen">
+            <header className="header">
+              <h1>Payment Confirmation</h1>
+            </header>
+
+            <div className="cart">
+              <h2>Cart</h2>
+              <ul>
+                {cart.map((item, index) => (
+                  <li key={index}>
+                    {item.name} - {item.quantity}x ${item.price.toFixed(2)} = $
+                    {(item.price * item.quantity).toFixed(2)}
+                  </li>
+                ))}
+              </ul>
+              <div className="totals">
+                {(() => {
+                  const {subtotal, tax, total} = calculateTotals();
+                  return (
+                    <>
+                      <p>Subtotal: ${subtotal.toFixed(2)}</p>
+                      <p>GST (9%): ${tax.toFixed(2)}</p>
+                      <p>
+                        <strong>Total: ${total.toFixed(2)}</strong>
+                      </p>
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
+
             <div className="qr-code">
               <h2>Scan Receipt QR Code</h2>
               <QRCodeCanvas value={receiptData} size={256} />
               <p>Scan this with your mobile app to save the receipt.</p>
             </div>
-          )}
-        </div>
+
+            <div className="actions">
+              <button onClick={goBack} className="back-button">
+                Back
+              </button>
+              <button onClick={resetCart} className="reset-button">
+                Done
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
