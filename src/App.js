@@ -16,29 +16,41 @@ function App() {
   const [isPayScreen, setIsPayScreen] = useState(false);
 
   const categories = {
-    Groceries: [
-      {name: "Milk (1L)", price: 3.5},
-      {name: "Bread", price: 2.0},
-      {name: "Eggs (10pk)", price: 4.8},
-      {name: "Tomato", price: 1.64},
-      {name: "Carrot", price: 0.65},
-    ],
-    Clothing: [
-      {name: "T-Shirt", price: 15.0},
-      {name: "Jeans", price: 35.0},
-      {name: "Jacket", price: 50.0},
-    ],
-    Electronics: [
-      {name: "Headphones", price: 25.0},
-      {name: "USB Cable", price: 5.0},
-    ],
-    "Food & Beverages": [
-      {name: "Coffee (500g)", price: 8.99},
-      {name: "Orange Juice (1L)", price: 4.25},
-      {name: "Chocolate Bar", price: 1.99},
-      {name: "Soda Can (330ml)", price: 1.5},
-      {name: "Bottled Water (500ml)", price: 0.99},
-    ],
+    Groceries: {
+      items: [
+        {name: "Milk (1L)", price: 3.5},
+        {name: "Bread", price: 2.0},
+        {name: "Eggs (10pk)", price: 4.8},
+        {name: "Tomato", price: 1.64},
+        {name: "Carrot", price: 0.65},
+      ],
+      uen: "T1234567A",
+    },
+    Clothing: {
+      items: [
+        {name: "T-Shirt", price: 15.0},
+        {name: "Jeans", price: 35.0},
+        {name: "Jacket", price: 50.0},
+      ],
+      uen: "T2345678B",
+    },
+    Electronics: {
+      items: [
+        {name: "Headphones", price: 25.0},
+        {name: "USB Cable", price: 5.0},
+      ],
+      uen: "T3456789C",
+    },
+    "Food & Beverages": {
+      items: [
+        {name: "Coffee (500g)", price: 8.99},
+        {name: "Orange Juice (1L)", price: 4.25},
+        {name: "Chocolate Bar", price: 1.99},
+        {name: "Soda Can (330ml)", price: 1.5},
+        {name: "Bottled Water (500ml)", price: 0.99},
+      ],
+      uen: "T4567890D",
+    },
   };
 
   const addToCart = (item) => {
@@ -71,8 +83,12 @@ function App() {
       0
     );
     const taxRate = 0.09;
-    const tax = (total * taxRate) / (1 + taxRate); // Indicative GST (9% of total, assuming included)
+    const tax = (total * taxRate) / (1 + taxRate); // Indicative GST
     return {tax, total};
+  };
+
+  const generateTransactionId = () => {
+    return "TXN" + Math.random().toString(36).substr(2, 9).toUpperCase(); // e.g., TXN7K9P2M4X
   };
 
   const handlePay = () => {
@@ -82,6 +98,7 @@ function App() {
       return;
     }
     const {tax, total} = calculateTotals();
+    const transactionId = generateTransactionId();
     const receipt = {
       store: `${activeCategory} Shop - GroceryMart SG`,
       date: new Date().toLocaleString(),
@@ -95,6 +112,8 @@ function App() {
       total: total.toFixed(2),
       payment_method: "CASH",
       note: "GST (9%) is included in item prices.",
+      uen: categories[activeCategory].uen,
+      transaction_id: transactionId,
     };
     setReceiptData(JSON.stringify(receipt));
     setShowQR(true);
@@ -171,7 +190,7 @@ function App() {
             <div className="item-selection">
               <h2>Select Items</h2>
               <div className="item-list">
-                {categories[activeCategory].map((item) => (
+                {categories[activeCategory].items.map((item) => (
                   <button
                     key={item.name}
                     onClick={() => addToCart(item)}
@@ -213,6 +232,9 @@ function App() {
                           </p>
                           <p className="total">
                             Total: <span>${total.toFixed(2)}</span>
+                          </p>
+                          <p className="uen">
+                            UEN: <span>{categories[activeCategory].uen}</span>
                           </p>
                         </>
                       );
@@ -264,6 +286,9 @@ function App() {
                         </p>
                         <p className="total">
                           Total: <span>${total.toFixed(2)}</span>
+                        </p>
+                        <p className="uen">
+                          UEN: <span>{categories[activeCategory].uen}</span>
                         </p>
                       </>
                     );

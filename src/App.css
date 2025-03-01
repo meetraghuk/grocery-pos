@@ -192,6 +192,9 @@
   color: #2c3e50;
 }
 
+/* ... (Previous CSS remains unchanged until .totals) ... */
+
+/* Totals */
 .totals {
   margin-top: 20px;
   padding-top: 15px;
@@ -212,10 +215,44 @@
   color: #2c3e50;
 }
 
+.totals .uen {
+  font-size: 14px;
+  color: #666;
+}
+
 .totals span {
   font-weight: 500;
 }
 
+/* ... (Rest of the CSS remains unchanged) ... */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* ... (Previous media query content) ... */
+  .totals p {
+    font-size: 14px;
+  }
+  .totals .total {
+    font-size: 16px;
+  }
+  .totals .uen {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* ... (Previous media query content) ... */
+  .totals p {
+    font-size: 12px;
+  }
+  .totals .total {
+    font-size: 14px;
+  }
+  .totals .uen {
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
 /* Pay Screen */
 .pay-screen-container {
   display: flex;
