@@ -104,12 +104,18 @@
 
 .header h1 {
   color: #2c3e50;
-  font-size: 24px; /* Slightly smaller for clarity with longer titles */
+  font-size: 24px;
 }
 
 /* Item Selection */
 .item-selection {
   margin: 20px 0;
+}
+
+.item-selection h2 {
+  font-size: 22px;
+  color: #2c3e50;
+  margin-bottom: 15px;
 }
 
 .item-list {
@@ -192,9 +198,6 @@
   color: #2c3e50;
 }
 
-/* ... (Previous CSS remains unchanged until .totals) ... */
-
-/* Totals */
 .totals {
   margin-top: 20px;
   padding-top: 15px;
@@ -224,35 +227,6 @@
   font-weight: 500;
 }
 
-/* ... (Rest of the CSS remains unchanged) ... */
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  /* ... (Previous media query content) ... */
-  .totals p {
-    font-size: 14px;
-  }
-  .totals .total {
-    font-size: 16px;
-  }
-  .totals .uen {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  /* ... (Previous media query content) ... */
-  .totals p {
-    font-size: 12px;
-  }
-  .totals .total {
-    font-size: 14px;
-  }
-  .totals .uen {
-    font-size: 14px;
-    font-weight: bold;
-  }
-}
 /* Pay Screen */
 .pay-screen-container {
   display: flex;
@@ -375,23 +349,46 @@
     font-size: 20px;
   }
 
+  .item-selection h2 {
+    font-size: 18px; /* Reduced size to blend better */
+    margin-bottom: 10px;
+  }
+
   .item-button {
-    padding: 8px 15px;
-    font-size: 12px;
-    min-width: 100px;
+    padding: 10px 15px; /* Slightly larger padding */
+    font-size: 14px; /* Larger font for readability */
+    min-width: 140px; /* Wider buttons for touch */
   }
 
   .cart-item {
-    flex-direction: column;
-    align-items: flex-start;
+    display: flex;
+    flex-wrap: nowrap; /* Keep items in one row */
+    justify-content: space-between;
+    align-items: center;
     padding: 8px 0;
+    font-size: 14px; /* Slightly smaller but readable */
   }
 
-  .item-quantity,
-  .item-price,
-  .item-total {
+  .item-name {
+    flex: 2;
     text-align: left;
-    margin-top: 5px;
+  }
+
+  .item-quantity {
+    flex: 1;
+    text-align: center;
+    margin: 0 5px; /* Add spacing */
+  }
+
+  .item-price {
+    flex: 1;
+    text-align: center;
+    margin: 0 5px;
+  }
+
+  .item-total {
+    flex: 1;
+    text-align: right;
   }
 
   .pay-screen-container {
@@ -428,14 +425,18 @@
     font-size: 18px;
   }
 
+  .item-selection h2 {
+    font-size: 16px; /* Further reduced for small screens */
+  }
+
   .item-list {
     gap: 5px;
   }
 
   .item-button {
-    padding: 6px 10px;
-    font-size: 10px;
-    min-width: 80px;
+    padding: 8px 12px; /* Adjusted padding */
+    font-size: 12px; /* Still readable */
+    min-width: 120px; /* Slightly smaller but touch-friendly */
   }
 
   .cart h2,
@@ -444,14 +445,25 @@
   }
 
   .cart-item {
-    font-size: 14px;
+    font-size: 12px; /* Smaller but fits in one row */
+  }
+
+  .item-name,
+  .item-quantity,
+  .item-price,
+  .item-total {
+    margin: 0 3px; /* Tighter spacing for small screens */
   }
 
   .totals p {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .totals .total {
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .totals .uen {
+    font-size: 10px;
   }
 }
