@@ -96,7 +96,7 @@ function App() {
   };
 
   const goBack = () => {
-    setIsPayScreen(false); // Simply go back without resetting cart
+    setIsPayScreen(false);
   };
 
   const toggleSidebar = () => {
@@ -129,91 +129,88 @@ function App() {
 
       {/* Main Container */}
       <div className="main-container">
+        {/* Sidebar (always visible) */}
+        <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+          <h3>Categories</h3>
+          <ul>
+            {Object.keys(categories).map((category) => (
+              <li
+                key={category}
+                className={activeCategory === category ? "active" : ""}
+                onClick={() => {
+                  setActiveCategory(category);
+                  setIsSidebarOpen(false);
+                }}
+              >
+                {category}
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        {/* Content (switches between main view and pay screen) */}
         {!isPayScreen ? (
-          <>
-            {/* Sidebar (only shown in main view) */}
-            <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-              <h3>Categories</h3>
-              <ul>
-                {Object.keys(categories).map((category) => (
-                  <li
-                    key={category}
-                    className={activeCategory === category ? "active" : ""}
-                    onClick={() => {
-                      setActiveCategory(category);
-                      setIsSidebarOpen(false);
-                    }}
+          <div className="content">
+            <header className="header">
+              <h1>{activeCategory} POS Terminal</h1>
+            </header>
+
+            <div className="item-selection">
+              <h2>Select Items</h2>
+              <div className="item-list">
+                {categories[activeCategory].map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={() => addToCart(item)}
+                    className="item-button"
                   >
-                    {category}
-                  </li>
+                    {item.name} (${item.price.toFixed(2)})
+                  </button>
                 ))}
-              </ul>
-            </aside>
-
-            {/* Main Content (only shown in main view) */}
-            <div className="content">
-              <header className="header">
-                <h1>{activeCategory} POS Terminal</h1>
-              </header>
-
-              <div className="item-selection">
-                <h2>Select Items</h2>
-                <div className="item-list">
-                  {categories[activeCategory].map((item) => (
-                    <button
-                      key={item.name}
-                      onClick={() => addToCart(item)}
-                      className="item-button"
-                    >
-                      {item.name} (${item.price.toFixed(2)})
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="cart">
-                <h2>Cart</h2>
-                {cart.length === 0 ? (
-                  <p>No items in cart.</p>
-                ) : (
-                  <>
-                    <ul>
-                      {cart.map((item, index) => (
-                        <li key={index}>
-                          {item.name} - {item.quantity}x $
-                          {item.price.toFixed(2)} = $
-                          {(item.price * item.quantity).toFixed(2)}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="totals">
-                      {(() => {
-                        const {subtotal, tax, total} = calculateTotals();
-                        return (
-                          <>
-                            <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                            <p>GST (9%): ${tax.toFixed(2)}</p>
-                            <p>
-                              <strong>Total: ${total.toFixed(2)}</strong>
-                            </p>
-                          </>
-                        );
-                      })()}
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <div className="actions">
-                <button onClick={handlePay} className="pay-button">
-                  Pay
-                </button>
-                <button onClick={resetCart} className="reset-button">
-                  Reset
-                </button>
               </div>
             </div>
-          </>
+
+            <div className="cart">
+              <h2>Cart</h2>
+              {cart.length === 0 ? (
+                <p>No items in cart.</p>
+              ) : (
+                <>
+                  <ul>
+                    {cart.map((item, index) => (
+                      <li key={index}>
+                        {item.name} - {item.quantity}x ${item.price.toFixed(2)}{" "}
+                        = ${(item.price * item.quantity).toFixed(2)}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="totals">
+                    {(() => {
+                      const {subtotal, tax, total} = calculateTotals();
+                      return (
+                        <>
+                          <p>Subtotal: ${subtotal.toFixed(2)}</p>
+                          <p>GST (9%): ${tax.toFixed(2)}</p>
+                          <p>
+                            <strong>Total: ${total.toFixed(2)}</strong>
+                          </p>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="actions">
+              <button onClick={handlePay} className="pay-button">
+                Pay
+              </button>
+              <button onClick={resetCart} className="reset-button">
+                Reset
+              </button>
+            </div>
+          </div>
         ) : (
           /* Pay Screen */
           <div className="content pay-screen">
