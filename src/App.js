@@ -7,6 +7,7 @@ function App() {
   const [showQR, setShowQR] = useState(false);
   const [receiptData, setReceiptData] = useState(null);
   const [activeCategory, setActiveCategory] = useState("Groceries");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const categories = {
     Groceries: [
@@ -24,6 +25,14 @@ function App() {
     Electronics: [
       {name: "Headphones", price: 25.0},
       {name: "USB Cable", price: 5.0},
+    ],
+    "Food & Beverages": [
+      // New category
+      {name: "Coffee (500g)", price: 8.99},
+      {name: "Orange Juice (1L)", price: 4.25},
+      {name: "Chocolate Bar", price: 1.99},
+      {name: "Soda Can (330ml)", price: 1.5},
+      {name: "Bottled Water (500ml)", price: 0.99},
     ],
   };
 
@@ -84,11 +93,18 @@ function App() {
     setReceiptData(null);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="App">
       {/* Top Navigation */}
       <nav className="top-nav">
-        <div className="logo">POS Terminal Simulator</div>
+        <div className="hamburger" onClick={toggleSidebar}>
+          ☰
+        </div>
+        <div className="logo">POS Simulator</div>
         <ul className="top-nav-links">
           <li>
             <a href="#">Home</a>
@@ -108,14 +124,17 @@ function App() {
       {/* Main Container */}
       <div className="main-container">
         {/* Left Sidebar Navigation */}
-        <aside className="sidebar">
+        <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
           <h3>Categories</h3>
           <ul>
             {Object.keys(categories).map((category) => (
               <li
                 key={category}
                 className={activeCategory === category ? "active" : ""}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => {
+                  setActiveCategory(category);
+                  setIsSidebarOpen(false);
+                }}
               >
                 {category}
               </li>
@@ -126,11 +145,11 @@ function App() {
         {/* Content Area */}
         <div className="content">
           <header className="header">
-            <h1>{activeCategory} POS Terminal</h1>
+            <h1>{activeCategory}</h1>
           </header>
 
           <div className="item-selection">
-            <h2>Select Items</h2>
+            <h2>Click to Select</h2>
             <div className="item-list">
               {categories[activeCategory].map((item) => (
                 <button

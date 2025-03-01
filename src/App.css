@@ -19,7 +19,14 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  line-height: 60px;
+  position: relative;
+  height: 70px; /* Fixed height as requested */
+}
+
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .top-nav .logo {
@@ -46,7 +53,7 @@
 /* Main Container */
 .main-container {
   display: flex;
-  height: calc(100vh - 60px); /* Adjust for top nav height */
+  height: calc(100vh - 70px); /* Adjusted for 70px top nav */
 }
 
 /* Sidebar */
@@ -57,6 +64,7 @@
   padding: 20px;
   height: 100%;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
 .sidebar h3 {
@@ -120,6 +128,8 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 14px;
+  min-width: 120px;
 }
 
 .item-button:hover {
@@ -156,6 +166,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 16px;
 }
 
 .pay-button {
@@ -183,4 +194,91 @@
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .top-nav {
+    height: 70px; /* Maintain fixed height */
+    flex-wrap: wrap;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .top-nav-links {
+    display: none;
+  }
+
+  .main-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: fixed;
+    top: 70px; /* Adjusted for 70px top nav */
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+    height: calc(100vh - 70px);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .item-button {
+    padding: 8px 15px;
+    font-size: 12px;
+    min-width: 100px;
+  }
+
+  .pay-button,
+  .reset-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .qr-code {
+    padding: 10px;
+  }
+
+  .qr-code canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-nav .logo {
+    font-size: 20px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .item-list {
+    gap: 5px;
+  }
+
+  .item-button {
+    padding: 6px 10px;
+    font-size: 10px;
+    min-width: 80px;
+  }
 }
