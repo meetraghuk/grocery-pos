@@ -1,0 +1,78 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #333;
+}
+
+.item-selection, .cart, .actions, .qr-code {
+  margin: 20px 0;
+}
+
+.item-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.item-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.item-button:hover {
+  background-color: #0056b3;
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart li {
+  margin: 5px 0;
+}
+
+.totals {
+  margin-top: 10px;
+}
+
+.pay-button, .reset-button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pay-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.pay-button:hover {
+  background-color: #218838;
+}
+
+.reset-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reset-button:hover {
+  background-color: #c82333;
+}
+
+.qr-code {
+  margin-top: 20px;
+}
