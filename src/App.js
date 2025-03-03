@@ -100,7 +100,7 @@ function App() {
     const {tax, total} = calculateTotals();
     const transactionId = generateTransactionId();
     const receipt = {
-      store: `${activeCategory} Shop - GroceryMart SG`,
+      store: `POS Simulator`,
       category: activeCategory, // Added category to QR code data
       date: new Date().toLocaleString(),
       items: currentCart.map((item) => ({
