@@ -83,12 +83,12 @@ function App() {
       0
     );
     const taxRate = 0.09;
-    const tax = (total * taxRate) / (1 + taxRate); // Indicative GST
+    const tax = (total * taxRate) / (1 + taxRate);
     return {tax, total};
   };
 
   const generateTransactionId = () => {
-    return "TXN" + Math.random().toString(36).substr(2, 9).toUpperCase(); // e.g., TXN7K9P2M4X
+    return "TXN" + Math.random().toString(36).substr(2, 9).toUpperCase();
   };
 
   const handlePay = () => {
@@ -101,6 +101,7 @@ function App() {
     const transactionId = generateTransactionId();
     const receipt = {
       store: `${activeCategory} Shop - GroceryMart SG`,
+      category: activeCategory, // Added category to QR code data
       date: new Date().toLocaleString(),
       items: currentCart.map((item) => ({
         name: item.name,
